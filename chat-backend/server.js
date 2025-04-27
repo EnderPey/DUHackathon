@@ -9,6 +9,9 @@ const ChatMessage = require("./models/ChatMessage");
 const app = express();
 const PORT = process.env.PORT || 8080;
 
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
 // Middleware
 app.use(cors({origin: true, credentials:true}));
 app.use(express.json());
@@ -62,6 +65,50 @@ app.post("/messages", async (req, res) => {
 		console.error(error);
 		res.status(500).json({ error: "Internal Server Error" });
 	}
+});
+
+// server.js
+
+
+// Add user model
+const User = mongoose.model('User', new mongoose.Schema({
+  username: { type: String, unique: true },
+  email: { type: String, unique: true },
+  password: String
+}));
+
+// Auth Routes
+app.post('/api/register', async (req, res) => {
+  try {
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const user = new User({
+      username: req.body.username,
+      email: req.body.email,
+      password: hashedPassword
+    });
+    await user.save();
+    res.status(201).send();
+  } catch {
+    res.status(500).send();
+  }
+});
+
+app.post('/api/login', async (req, res) => {
+  const user = await User.findOne({ username: req.body.username });
+  if (!user) return res.status(400).send('User not found');
+  
+  if (await bcrypt.compare(req.body.password, user.password)) {
+    const token = jwt.sign({ userId: user._id }, 'your-secret-key');
+    res.cookie('token', token, { httpOnly: true });
+    res.json({ username: user.username });
+  } else {
+    res.status(401).send('Wrong password');
+  }
+});
+
+app.post('/api/logout', (req, res) => {
+  res.clearCookie('token');
+  res.sendStatus(200);
 });
 
 // Start the server
