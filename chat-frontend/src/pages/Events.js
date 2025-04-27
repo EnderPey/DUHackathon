@@ -1,19 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import styles from "../styles/Events.module.css";
 
-const Events = ({ currentUser }) => {
-  const [events, setEvents] = useState([]);
-  const [addEventOpen, setAddEventOpen] = useState(false);
+const USER_PROFILE_PHOTO = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuQhfKIRIuVhyM9jbdn7eXHRqQ0OebteruLK26ijbwDskbZJzqD9wi0pHc5oRlMbbrwNE&usqp=CAU";
+
+const CombinedEvents = ({ currentUser }) => {
+  // Local custom events (not yet pushed to backend)
+  const [localEvents, setLocalEvents] = useState([]);
+  // Events from backend
+  const [apiEvents, setApiEvents] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [addEventOpen, setAddEventOpen] = useState(false);
 
+  // Fetch events from backend
   useEffect(() => {
     const fetchEvents = async () => {
+      setLoading(true);
       try {
-        setLoading(true);
-        const response = await fetch('http://localhost:8080/api/events');
-        const data = await response.json();
-        setEvents(data);
+        const res = await fetch('http://localhost:8080/api/events');
+        const data = await res.json();
+        setApiEvents(data);
       } catch (err) {
         setError('Failed to load events');
       } finally {
@@ -23,8 +29,7 @@ const Events = ({ currentUser }) => {
     fetchEvents();
   }, []);
 
-  const toggleAddEventForm = () => setAddEventOpen(!addEventOpen);
-
+  // Add event (tries to add to backend, falls back to local if fails)
   const addCustomEvent = async (e) => {
     e.preventDefault();
     const formData = {
@@ -32,53 +37,66 @@ const Events = ({ currentUser }) => {
       date: e.target.customEventDate.value,
       time: e.target.customEventTime.value,
       place: e.target.customEventPlace.value.trim(),
-      description: e.target.customEventDesc.value.trim()
+      description: e.target.customEventDesc.value.trim(),
+      profilePhoto: USER_PROFILE_PHOTO,
     };
     try {
       const response = await fetch('http://localhost:8080/api/events', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
       });
       if (!response.ok) throw new Error('Failed to create event');
       const newEvent = await response.json();
-      setEvents(prev => [newEvent, ...prev]);
-      e.target.reset();
-      setAddEventOpen(false);
+      setApiEvents(prev => [newEvent, ...prev]);
     } catch (err) {
-      setError(err.message);
+      // If backend fails, store locally
+      setLocalEvents(prev => [
+        {
+          ...formData,
+          id: `local-${Date.now()}`,
+          participants: [],
+        },
+        ...prev,
+      ]);
+    }
+    e.target.reset();
+    setAddEventOpen(false);
+  };
+
+  // Unified event list
+  const allEvents = [...localEvents, ...apiEvents];
+
+  // Sign up for event (API or local)
+  const handleSignup = async (event) => {
+    if (event._id) {
+      // API event
+      try {
+        const response = await fetch(`http://localhost:8080/api/events/${event._id}/signup`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId: currentUser._id }),
+        });
+        if (!response.ok) throw new Error('Signup failed');
+        const updatedEvent = await response.json();
+        setApiEvents(prev => prev.map(ev => ev._id === updatedEvent._id ? updatedEvent : ev));
+      } catch (err) {
+        setError(err.message);
+      }
+    } else {
+      // Local event
+      setLocalEvents(prev =>
+        prev.map(ev =>
+          ev.id === event.id
+            ? { ...ev, participants: [...(ev.participants || []), currentUser._id] }
+            : ev
+        )
+      );
     }
   };
 
-  const handleSignup = async (eventId) => {
-    try {
-      const response = await fetch(`http://localhost:8080/api/events/${eventId}/signup`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: currentUser._id })
-      });
-      if (!response.ok) throw new Error('Signup failed');
-      const updatedEvent = await response.json();
-      setEvents(prev => prev.map(event => event._id === updatedEvent._id ? updatedEvent : event));
-    } catch (err) {
-      setError(err.message);
-    }
-  };
-
-  const handleDelete = async (eventId) => {
-    try {
-      const response = await fetch(`http://localhost:8080/api/events/${eventId}`, {
-        method: 'DELETE',
-      });
-      if (!response.ok) throw new Error('Failed to delete event');
-      setEvents(prev => prev.filter(event => event._id !== eventId));
-    } catch (err) {
-      setError(err.message);
-    }
-  };
-
-  // Filter events the current user is registered for
-  const registeredEvents = events.filter(event =>
+  // Filter registered events
+  const registeredEvents = allEvents.filter(event =>
     event.participants && event.participants.includes(currentUser?._id)
   );
 
@@ -90,12 +108,11 @@ const Events = ({ currentUser }) => {
       {error && <div className={styles.errorBanner}>{error}</div>}
       <div className={styles.mainContent}>
         <div className={styles.contentWrapper}>
-          {/* Main Events Section */}
           <div>
             <div className={styles.addEventSection}>
               <button
                 className={`${styles.addEventButton} ${addEventOpen ? styles.open : ''}`}
-                onClick={toggleAddEventForm}
+                onClick={() => setAddEventOpen(!addEventOpen)}
               >
                 {addEventOpen ? "Cancel" : "Add Event"}
               </button>
@@ -113,26 +130,19 @@ const Events = ({ currentUser }) => {
             {loading ? (
               <div className={styles.loadingMessage}>Loading events...</div>
             ) : (
-                <div className={styles.eventsList}>
-                {events.length === 0 ? (
+              <div className={styles.eventsList}>
+                {allEvents.length === 0 ? (
                   <div className={styles.noEvents}>No events found.</div>
                 ) : (
-                  events.map(event => (
-                    <div key={event._id} className={styles.eventCard}>
+                  allEvents.map(event => (
+                    <div key={event._id || event.id} className={styles.eventCard}>
                       <div className={styles.eventHeader}>
                         <h2 className={styles.eventName}>{event.name}</h2>
-                        <button
-                            className={styles.deleteButton}
-                            onClick={() => handleDelete(event._id)}
-                            title="Delete this event"
-                        >
-                            Delete
-                        </button>
-                    </div>
-
+                        {/* Optionally add delete/edit controls here */}
+                      </div>
                       <div className={styles.eventMeta}>
                         <span className={styles.eventDate}>
-                          {new Date(event.date).toLocaleDateString()} {event.time}
+                          {event.date} {event.time}
                         </span>
                         <span className={styles.eventLocation}>@ {event.place}</span>
                       </div>
@@ -161,7 +171,7 @@ const Events = ({ currentUser }) => {
                         ) : (
                           <button
                             className={styles.signUpButton}
-                            onClick={() => handleSignup(event._id)}
+                            onClick={() => handleSignup(event)}
                           >
                             Sign Up
                           </button>
@@ -181,10 +191,10 @@ const Events = ({ currentUser }) => {
             ) : (
               <ul className={styles.registrationsList}>
                 {registeredEvents.map(event => (
-                  <li key={event._id} className={styles.registrationItem}>
+                  <li key={event._id || event.id} className={styles.registrationItem}>
                     <div className={styles.registrationTitle}>{event.name}</div>
                     <div className={styles.registrationDate}>
-                      {new Date(event.date).toLocaleDateString()} {event.time} @ {event.place}
+                      {event.date} {event.time} @ {event.place}
                     </div>
                   </li>
                 ))}
@@ -197,4 +207,4 @@ const Events = ({ currentUser }) => {
   );
 };
 
-export default Events;
+export default CombinedEvents;
