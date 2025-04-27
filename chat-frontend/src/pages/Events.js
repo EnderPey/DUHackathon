@@ -230,4 +230,3 @@ const CombinedEvents = ({ currentUser }) => {
 };
 
 export default CombinedEvents;
-
