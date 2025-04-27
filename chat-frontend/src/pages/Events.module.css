@@ -1,0 +1,211 @@
+/* Events.module.css */
+
+.eventsPage {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .mainContent {
+    flex: 1;
+    width: 100%;
+    padding: 0 2rem;
+  }
+  
+  .contentWrapper {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    padding: 2rem 0;
+  }
+  
+  .pageHeader {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .pageTitle {
+    color: #2c3e50;
+    font-size: 2.5rem;
+  }
+  
+  .addEventSection {
+    margin-bottom: 2rem;
+  }
+  
+  .addEventButton {
+    background-color: #2ecc71;
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+  }
+  
+  .addEventButton.open {
+    background-color: #e74c3c;
+  }
+  
+  .eventForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+  }
+  
+  .eventForm input,
+  .eventForm textarea {
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+  
+  .submitButton {
+    background-color: #27ae60;
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    align-self: flex-start;
+  }
+  
+  .eventsList {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .eventCard {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  
+  .eventDetails {
+    margin-bottom: 1rem;
+  }
+  
+  .eventName {
+    font-size: 1.5rem;
+    color: #34495e;
+    margin: 0;
+  }
+  
+  .eventMeta {
+    display: flex;
+    gap: 1rem;
+    color: #7f8c8d;
+    margin: 0.5rem 0;
+  }
+  
+  .eventDate,
+  .eventLocation {
+    font-size: 0.9rem;
+  }
+  
+  .eventDescription {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    color: #2c3e50;
+  }
+  
+  .eventActions {
+    margin-top: 1rem;
+  }
+  
+  .signUpButton {
+    background-color: #3498db;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .signedUpButton {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    color: white;
+  }
+  
+  .signUpForm {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    background: #f9f9f9;
+    padding: 1rem;
+    border-radius: 8px;
+  }
+  
+  .submitFormButton {
+    background-color: #2980b9;
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    align-self: flex-start;
+  }
+  
+  .registeredEvents {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    height: fit-content;
+  }
+  
+  .sidebarTitle {
+    font-size: 1.5rem;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+  }
+  
+  .noEvents {
+    font-style: italic;
+    color: #7f8c8d;
+  }
+  
+  .registrationsList {
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+  }
+  
+  .registrationItem {
+    padding: 1rem 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .registrationTitle {
+    font-size: 1.1rem;
+    margin: 0;
+    color: #34495e;
+  }
+  
+  .registrationDate {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+  }
+  
+  @media (max-width: 768px) {
+    .contentWrapper {
+      grid-template-columns: 1fr;
+    }
+  }
+  

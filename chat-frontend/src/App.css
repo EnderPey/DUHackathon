@@ -1,0 +1,76 @@
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+body {
+  background-color: #f5f5f5;
+}
+
+/* Navigation Bar */
+.navBar {
+  background-color: #2c3e50;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.navLinks {
+  display: flex;
+  gap: 2rem;
+}
+
+.navLink {
+  color: #ecf0f1;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.navLink:hover {
+  color: #3498db;
+}
+
+.active {
+  color: #3498db;
+  border-bottom: 2px solid #3498db;
+}
+
+/* Main Content Container */
+.mainContent {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+/* App.css */
+.profileDropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdownMenu {
+  position: absolute;
+  right: 0;
+  background: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 100;
+}
+
+.dropdownMenu a, .dropdownMenu button {
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.dropdownMenu button:hover {
+  background: #f0f0f0;
+}
