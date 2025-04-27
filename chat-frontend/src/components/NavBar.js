@@ -2,9 +2,11 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from '../styles/NavBar.module.css';
+import { useAuth } from '../contexts/AuthContext';
 
 const NavBar = ({ currentUser, setCurrentUser }) => {
   const [showAuthDropdown, setShowAuthDropdown] = useState(false);
+  const { username, logout } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -27,19 +29,19 @@ const NavBar = ({ currentUser, setCurrentUser }) => {
       </div>
 
       <div className={styles.authSection}>
-        {currentUser ? (
+        {username ? (
           <div className={styles.profileDropdown}>
             <button 
               className={styles.profileButton}
               onClick={() => setShowAuthDropdown(!showAuthDropdown)}
             >
-              {currentUser} ▼
+              {username} ▼
             </button>
             {showAuthDropdown && (
               <div className={styles.dropdownMenu}>
                 <Link to="/profile" className={styles.dropdownItem}>Profile</Link>
                 <button 
-                  onClick={handleLogout}
+                  onClick={logout}
                   className={styles.dropdownItem}
                 >
                   Logout

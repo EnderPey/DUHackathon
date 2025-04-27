@@ -1,9 +1,11 @@
 // src/components/Login.js
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import styles from '../styles/Login.module.css';
 
-const Login = ({ onLogin }) => {
+const Login = () => {
+    const { login } = useAuth();
   const [formData, setFormData] = useState({
     username: '',
     password: ''
@@ -26,7 +28,7 @@ const Login = ({ onLogin }) => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/login', {
+      const response = await fetch('http://localhost:8080/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -39,7 +41,7 @@ const Login = ({ onLogin }) => {
       }
 
       const data = await response.json();
-      onLogin(data.username);
+      login(data.username);
       navigate('/');
     } catch (err) {
       setError(err.message || 'Invalid username or password');

@@ -25,35 +25,33 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-
-    // Basic validation
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
       return;
     }
-
     setIsLoading(true);
-
     try {
-      const response = await fetch('/api/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: formData.username,
-          email: formData.email,
-          password: formData.password
-        }),
-        credentials: 'include'
-      });
-
+        const response = await fetch('http://localhost:8080/api/register', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+          });
+  
+      // Check if response is JSON
+      const contentType = response.headers.get('content-type');
+      console.log(contentType);
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Registration failed');
+        if (contentType && contentType.includes('application/json')) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || 'Registration failed');
+        } else {
+          const text = await response.text();
+          throw new Error('Server error: ' + text);
+        }
       }
-
-      // Registration successful
+  
+      // Success
       navigate('/login');
     } catch (err) {
       setError(err.message || 'Registration failed. Please try again.');
@@ -61,6 +59,7 @@ const Register = () => {
       setIsLoading(false);
     }
   };
+  
 
   return (
     <div className={styles.registerContainer}>

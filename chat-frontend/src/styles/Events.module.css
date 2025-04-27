@@ -34,7 +34,7 @@
   }
   
   .addEventButton {
-    background-color: #2ecc71;
+    background-color: #cc3e2e;
     color: white;
     padding: 0.6rem 1.2rem;
     border: none;
@@ -68,7 +68,7 @@
   }
   
   .submitButton {
-    background-color: #27ae60;
+    background-color: #ae3427;
     color: white;
     padding: 0.6rem 1.2rem;
     border: none;
@@ -303,6 +303,9 @@
   border-color: #e73232;
   transform: scale(0.98);
 }
+
+
+
 
 
 

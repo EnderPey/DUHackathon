@@ -13,7 +13,10 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 // Middleware
-app.use(cors({origin: true, credentials:true}));
+app.use(cors({
+	origin: 'http://localhost:3000',   
+	credentials: true                  
+  }));
 app.use(express.json());
 
 // MongoDB Connection
@@ -22,16 +25,18 @@ mongoose.connect("mongodb+srv://enderPey:tVP4z3ZK2l7sYPKS@chattest.p99wfmf.mongo
 .catch(err => console.error("❌ MongoDB connection error:", err));
 ;
 
-// Routes
+
 app.get("/messages", async (req, res) => {
 	try {
-		const messages = await ChatMessage.find();
-		res.json(messages);
+	  const messages = await ChatMessage.find();
+	  res.json(messages);
 	} catch (error) {
-		console.error(error);
-		res.status(500).json({ error: "Internal Server Error" });
-	}
-});
+	  console.error(error);
+	  res.status(500).json({ error: "Internal Server Error" });
+	} 
+  }); 
+  
+  
 
 app.delete("/messages", async (req, res) => {
 	try {
@@ -79,19 +84,35 @@ const User = mongoose.model('User', new mongoose.Schema({
 
 // Auth Routes
 app.post('/api/register', async (req, res) => {
-  try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    const user = new User({
-      username: req.body.username,
-      email: req.body.email,
-      password: hashedPassword
-    });
-    await user.save();
-    res.status(201).send();
-  } catch {
-    res.status(500).send();
-  }
-});
+	try {
+	  // Check for existing user
+	  const existingUser = await User.findOne({ 
+		$or: [
+		  { username: req.body.username },
+		  { email: req.body.email }
+		]
+	  });
+	  if (existingUser) {
+		return res.status(400).json({ message: "Username or email already exists" });
+	  }
+  
+	  const hashedPassword = await bcrypt.hash(req.body.password, 10);
+	  const user = new User({
+		username: req.body.username,
+		email: req.body.email,
+		password: hashedPassword
+	  });
+	  await user.save();
+	  return res.status(201).json({ message: "User registered successfully" });
+	} catch (error) {
+	  console.error("Registration error:", error);
+	  return res.status(500).json({ message: error.message || "Registration failed" });
+	}
+  });
+  
+  
+  
+  
 
 app.post('/api/login', async (req, res) => {
   const user = await User.findOne({ username: req.body.username });
