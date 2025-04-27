@@ -1,76 +1,77 @@
 .chatContainer {
-    display: flex;
-    flex-direction: column;
-    height: calc(100vh - 120px);
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  }
-  
-  .messagesContainer {
-    flex: 1;
-    padding: 1rem;
-    overflow-y: auto;
-  }
-  
-  .message {
-    margin-bottom: 1rem;
-    padding: 1rem;
-    border-radius: 10px;
-    max-width: 70%;
-  }
-  
-  .message.user {
-    background-color: #3498db;
-    color: white;
-    margin-left: auto;
-  }
-  
-  .message.other {
-    background-color: #ecf0f1;
-    margin-right: auto;
-  }
-  
-  .inputContainer {
-    display: flex;
-    padding: 1rem;
-    border-top: 1px solid #ddd;
-  }
-  
-  .messageInput {
-    flex: 1;
-    padding: 0.8rem;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-right: 1rem;
-  }
-  
-  .sendButton {
-    background-color: #2ecc71;
-    color: white;
-    padding: 0.8rem 1.5rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .sendButton:hover {
-    background-color: #27ae60;
-  }
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 120px);
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
 
+.messagesContainer {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.message {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 10px;
+  max-width: 70%;
+}
+
+.message.user {
+  background-color: #9D2235; 
+  color: white;
+  margin-left: auto;
+}
+
+.message.other {
+  background-color: #f8f8f8; 
+  color: #9D2235; 
+  margin-right: auto;
+}
+
+.inputContainer {
+  display: flex;
+  padding: 1rem;
+  border-top: 1px solid #9D2235; 
+}
+
+.messageInput {
+  flex: 1;
+  padding: 0.8rem;
+  border: 1px solid #9D2235;
+  border-radius: 5px;
+  margin-right: 1rem;
+  color: #9D2235;
+}
+
+.sendButton {
+  background-color: #9D2235; /* DU Red */
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.sendButton:hover {
+  background-color: #b53045;
+}
 
 .clearButton {
-    background-color: #e74c3c;
-    color: white;
-    padding: 0.8rem 1.5rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-left: 0.5rem;
+  background-color: #9D2235;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-left: 0.5rem;
 }
 
 .clearButton:hover {
-    background-color: #c0392b;
+  background-color: #b53045;
 }
