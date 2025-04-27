@@ -1,81 +1,297 @@
-.formsContainer {
-  max-width: 900px;
-  margin: 40px auto;
-  padding: 24px;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+.eventsPage {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-.formsTitle {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 24px;
-  color: #1a2a42;
+.mainContent {
+  flex: 1;
+  width: 100%;
+  padding: 0 2rem;
+}
+
+.contentWrapper {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+  padding: 2rem 0;
+}
+
+.pageHeader {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.pageTitle {
+  color: #9D2235;
+  font-size: 2.5rem;
+}
+
+.addEventSection {
+  margin-bottom: 2rem;
+}
+
+.addEventButton {
+  background-color: #9D2235;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+
+.addEventButton.open {
+  background-color: #b53045;
+}
+
+.eventForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+}
+
+.eventForm input,
+.eventForm textarea {
+  padding: 0.8rem;
+  border: 1px solid #9D2235;
+  border-radius: 5px;
+  font-size: 1rem;
+  color: #9D2235;
+}
+
+.submitButton {
+  background-color: #9D2235;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  align-self: flex-start;
+}
+
+.eventsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.eventCard {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.eventDetails {
+  margin-bottom: 1rem;
+}
+
+.eventName {
+  font-size: 1.5rem;
+  color: #9D2235;
+  margin: 0;
+}
+
+.eventMeta {
+  display: flex;
+  gap: 1rem;
+  color: #9D2235;
+  margin: 0.5rem 0;
+}
+
+.eventDate,
+.eventLocation {
+  font-size: 0.9rem;
+}
+
+.eventDescription {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  color: #9D2235;
+}
+
+.eventActions {
+  margin-top: 1rem;
+}
+
+.signUpButton {
+  background-color: #9D2235;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.signedUpButton {
+  background-color: #b53045;
+  cursor: not-allowed;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  color: white;
+}
+
+.signUpForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  background: #f9f9f9;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.submitFormButton {
+  background-color: #9D2235;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  align-self: flex-start;
+}
+
+.registeredEvents {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  height: fit-content;
+}
+
+.sidebarTitle {
+  font-size: 1.5rem;
+  color: #9D2235;
+  margin-bottom: 1rem;
+}
+
+.noEvents {
+  font-style: italic;
+  color: #b53045;
+}
+
+.registrationsList {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+.registrationItem {
+  padding: 1rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.registrationTitle {
+  font-size: 1.1rem;
+  margin: 0;
+  color: #9D2235;
+}
+
+.registrationDate {
+  font-size: 0.9rem;
+  color: #b53045;
+}
+
+@media (max-width: 768px) {
+  .contentWrapper {
+    grid-template-columns: 1fr;
+  }
+}
+
+.errorBanner {
+  background: #f8d7da;
+  color: #9D2235;
+  padding: 1rem;
+  margin: 1rem;
+  border-radius: 4px;
   text-align: center;
 }
 
-.formsTable {
+.loadingMessage {
+  text-align: center;
+  padding: 2rem;
+  color: #9D2235;
+}
+
+.participantsSection {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+}
+
+.participantsHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  color: #9D2235;
+}
+
+.participantsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.participantBadge {
+  background: #f0f2f5;
+  padding: 0.3rem 0.8rem;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  color: #9D2235;
+}
+
+.noParticipants {
+  font-style: italic;
+  color: #b53045;
+}
+
+.eventHeader {
+  display: flex;
+  align-items: center;
   width: 100%;
-  border-collapse: collapse;
+}
+
+.eventName {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.deleteButton {
+  margin-left: auto;
+  background: #fff;
+  border: 2px solid #9D2235;
+  color: #9D2235;
   font-size: 1rem;
-  background: #fafbfc;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-}
-
-.formsTable thead tr {
-  background-color: #009879;
-  color: #ffffff;
-  text-align: left;
-}
-
-.formsTable th, .formsTable td {
-  padding: 14px 18px;
-  letter-spacing: 0.5px;
-}
-
-.formsTable th {
   font-weight: 600;
-  letter-spacing: 1px;
-}
-
-.formsTable tbody tr {
-  border-bottom: 1px solid #e0e0e0;
-  transition: background 0.18s;
-}
-
-.formsTable tbody tr:nth-of-type(even) {
-  background-color: #f3f3f3;
-}
-
-.formsTable tbody tr:hover {
-  background-color: #e6f7fa;
-}
-
-.formsTable td {
-  text-align: left;
-  vertical-align: middle;
-}
-
-.linkButton {
-  display: inline-block;
-  padding: 7px 18px;
-  background: #009879;
-  color: #fff;
-  border-radius: 5px;
-  text-decoration: none;
-  font-weight: 500;
-  transition: background 0.18s, color 0.18s;
-  border: none;
+  border-radius: 24px;
+  padding: 0.4rem 1.1rem;
   cursor: pointer;
-  font-size: 1rem;
+  box-shadow: 0 1px 4px rgba(157, 34, 53, 0.1);
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.15s;
 }
 
-.linkButton:hover,
-.linkButton:focus {
-  background: #007e6c;
+.deleteButton:hover,
+.deleteButton:focus {
+  background: #f5cfcf;
   color: #fff;
-  text-decoration: underline;
+  border-color: #9D2235;
+  transform: scale(1.05);
+  outline: none;
+}
+
+.deleteButton:active {
+  background: #9D2235;
+  color: #fff;
+  border-color: #9D2235;
+  transform: scale(0.98);
 }
