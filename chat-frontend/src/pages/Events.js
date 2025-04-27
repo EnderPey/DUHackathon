@@ -4,15 +4,12 @@ import styles from "../styles/Events.module.css";
 const USER_PROFILE_PHOTO = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuQhfKIRIuVhyM9jbdn7eXHRqQ0OebteruLK26ijbwDskbZJzqD9wi0pHc5oRlMbbrwNE&usqp=CAU";
 
 const CombinedEvents = ({ currentUser }) => {
-  // Local custom events (not yet pushed to backend)
   const [localEvents, setLocalEvents] = useState([]);
-  // Events from backend
   const [apiEvents, setApiEvents] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [addEventOpen, setAddEventOpen] = useState(false);
 
-  // Fetch events from backend
   useEffect(() => {
     const fetchEvents = async () => {
       setLoading(true);
@@ -29,9 +26,13 @@ const CombinedEvents = ({ currentUser }) => {
     fetchEvents();
   }, []);
 
-  // Add event (tries to add to backend, falls back to local if fails)
   const addCustomEvent = async (e) => {
     e.preventDefault();
+    if (!currentUser) {
+      setError('Please log in to create events');
+      return;
+    }
+
     const formData = {
       name: e.target.customEventName.value.trim(),
       date: e.target.customEventDate.value,
@@ -39,65 +40,88 @@ const CombinedEvents = ({ currentUser }) => {
       place: e.target.customEventPlace.value.trim(),
       description: e.target.customEventDesc.value.trim(),
       profilePhoto: USER_PROFILE_PHOTO,
+      participants: [{
+        _id: currentUser._id,
+        username: currentUser.username,
+        email: currentUser.email
+      }]
     };
+
     try {
       const response = await fetch('http://localhost:8080/api/events', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
+      
       if (!response.ok) throw new Error('Failed to create event');
       const newEvent = await response.json();
       setApiEvents(prev => [newEvent, ...prev]);
     } catch (err) {
-      // If backend fails, store locally
       setLocalEvents(prev => [
         {
           ...formData,
           id: `local-${Date.now()}`,
-          participants: [],
+          participants: [{
+            _id: currentUser._id,
+            username: currentUser.username,
+            email: currentUser.email
+          }]
         },
-        ...prev,
+        ...prev
       ]);
     }
     e.target.reset();
     setAddEventOpen(false);
   };
 
-  // Unified event list
-  const allEvents = [...localEvents, ...apiEvents];
-
-  // Sign up for event (API or local)
   const handleSignup = async (event) => {
-    if (event._id) {
-      // API event
-      try {
+    setError('');
+    if (!currentUser) {
+      setError('Please log in to sign up for events');
+      return;
+    }
+
+    try {
+      if (event.participants.some(p => p._id === currentUser._id)) {
+        setError('You are already registered for this event');
+        return;
+      }
+
+      if (event._id) {
         const response = await fetch(`http://localhost:8080/api/events/${event._id}/signup`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ userId: currentUser._id }),
+          body: JSON.stringify({ 
+            userId: currentUser._id,
+            username: currentUser.username,
+            email: currentUser.email
+          })
         });
+        
         if (!response.ok) throw new Error('Signup failed');
         const updatedEvent = await response.json();
         setApiEvents(prev => prev.map(ev => ev._id === updatedEvent._id ? updatedEvent : ev));
-      } catch (err) {
-        setError(err.message);
+      } else {
+        setLocalEvents(prev => prev.map(ev => 
+          ev.id === event.id ? {
+            ...ev,
+            participants: [...ev.participants, {
+              _id: currentUser._id,
+              username: currentUser.username,
+              email: currentUser.email
+            }]
+          } : ev
+        ));
       }
-    } else {
-      // Local event
-      setLocalEvents(prev =>
-        prev.map(ev =>
-          ev.id === event.id
-            ? { ...ev, participants: [...(ev.participants || []), currentUser._id] }
-            : ev
-        )
-      );
+    } catch (err) {
+      setError(err.message);
     }
   };
 
-  // Filter registered events
+  const allEvents = [...localEvents, ...apiEvents];
   const registeredEvents = allEvents.filter(event =>
-    event.participants && event.participants.includes(currentUser?._id)
+    event.participants?.some(p => p._id === currentUser?._id)
   );
 
   return (
@@ -138,7 +162,6 @@ const CombinedEvents = ({ currentUser }) => {
                     <div key={event._id || event.id} className={styles.eventCard}>
                       <div className={styles.eventHeader}>
                         <h2 className={styles.eventName}>{event.name}</h2>
-                        {/* Optionally add delete/edit controls here */}
                       </div>
                       <div className={styles.eventMeta}>
                         <span className={styles.eventDate}>
@@ -152,10 +175,10 @@ const CombinedEvents = ({ currentUser }) => {
                           Attendees ({event.participants?.length || 0})
                         </div>
                         <div className={styles.participantsGrid}>
-                          {event.participants && event.participants.length > 0 ? (
+                          {event.participants?.length > 0 ? (
                             event.participants.map((participant, idx) => (
                               <span key={idx} className={styles.participantBadge}>
-                                {participant.username || participant.email || participant}
+                                {participant.username || participant.email || participant._id}
                               </span>
                             ))
                           ) : (
@@ -164,7 +187,7 @@ const CombinedEvents = ({ currentUser }) => {
                         </div>
                       </div>
                       <div className={styles.eventActions}>
-                        {currentUser && event.participants?.includes(currentUser._id) ? (
+                        {currentUser && event.participants?.some(p => p._id === currentUser._id) ? (
                           <button className={styles.signedUpButton} disabled>
                             Registered
                           </button>
@@ -183,7 +206,6 @@ const CombinedEvents = ({ currentUser }) => {
               </div>
             )}
           </div>
-          {/* Sidebar: Registered Events */}
           <aside className={styles.registeredEvents}>
             <div className={styles.sidebarTitle}>Your Registered Events</div>
             {registeredEvents.length === 0 ? (
@@ -208,3 +230,4 @@ const CombinedEvents = ({ currentUser }) => {
 };
 
 export default CombinedEvents;
+
