@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import styles from "./Events.module.css";
+import styles from "../styles/Events.module.css";
 
 const Events = () => {
   const [signedUpEvents, setSignedUpEvents] = useState([]);

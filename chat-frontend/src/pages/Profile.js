@@ -8,3 +8,5 @@ const Profile = ({ user }) => {
       </div>
     );
   };
+
+  export default Profile

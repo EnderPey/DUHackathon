@@ -30,3 +30,5 @@ const Login = ({ onLogin }) => {
     </form>
   );
 };
+
+export default Login
