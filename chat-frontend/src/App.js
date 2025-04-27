@@ -3,9 +3,11 @@ import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-ro
 import Home from './pages/Home';
 import Chat from './pages/Chat';
 import Events from './pages/Events';
+import Forms from './pages/Forms';
 import Login from './components/Login';
 import Register from './components/Register';
 import Profile from './pages/Profile';
+import NavBar from './components/NavBar';
 import './App.css';
 
 function App() {
@@ -45,38 +47,14 @@ function App() {
 
   return (
     <Router>
-      <nav className="navBar">
-        <div className="navLinks">
-          <Link className="navLink" to="/">Home</Link>
-          <Link className="navLink" to="/chat">Chat</Link>
-          <Link className="navLink" to="/events">Events</Link>
-          
-          {currentUser ? (
-            <div className="profileDropdown">
-              <button onClick={() => setShowDropdown(!showDropdown)}>
-                {currentUser} ▼
-              </button>
-              {showDropdown && (
-                <div className="dropdownMenu">
-                  <Link to="/profile">Profile</Link>
-                  <button onClick={handleLogout}>Logout</button>
-                </div>
-              )}
-            </div>
-          ) : (
-            <>
-              <Link className="navLink" to="/login">Login</Link>
-              <Link className="navLink" to="/register">Register</Link>
-            </>
-          )}
-        </div>
-      </nav>
+      <NavBar currentUser={currentUser} setCurrentUser={setCurrentUser} />
 
       <main className="mainContent">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/chat" element={<PrivateRoute><Chat /></PrivateRoute>} />
-          <Route path="/events" element={<PrivateRoute><Events /></PrivateRoute>} />
+          <Route path="/chat" element={<Chat />} />
+          <Route path="/events" element={<Events />} />
+		  <Route path="/forms" element={<Forms />} />
           <Route path="/login" element={<Login onLogin={setCurrentUser} />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<PrivateRoute><Profile user={currentUser} /></PrivateRoute>} />
@@ -84,6 +62,7 @@ function App() {
       </main>
     </Router>
   );
+  
 }
 
 export default App;

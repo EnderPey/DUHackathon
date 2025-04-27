@@ -67,7 +67,7 @@ app.post("/messages", async (req, res) => {
 	}
 });
 
-// server.js
+
 
 
 // Add user model
@@ -110,6 +110,68 @@ app.post('/api/logout', (req, res) => {
   res.clearCookie('token');
   res.sendStatus(200);
 });
+
+
+
+// server.js - Add these routes
+const Event = require('./models/Event'); // Create this model
+
+// Get all events
+app.get('/api/events', async (req, res) => {
+  try {
+    const events = await Event.find().sort({ createdAt: -1 });
+    res.json(events);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch events' });
+  }
+});
+
+// Create new event
+app.post('/api/events', async (req, res) => {
+  try {
+    const event = new Event({
+      name: req.body.name,
+      date: new Date(req.body.date), // Store as Date object
+      time: req.body.time,
+      place: req.body.place,
+      description: req.body.description
+    });
+    
+    const savedEvent = await event.save();
+    res.status(201).json(savedEvent);
+  } catch (error) {
+    res.status(400).json({ error: 'Failed to create event' });
+  }
+});
+
+// Sign up for event
+app.post('/api/events/:id/signup', async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id);
+    if (!event) return res.status(404).json({ error: 'Event not found' });
+    
+    if (!event.participants.includes(req.body.userId)) {
+      event.participants.push(req.body.userId);
+      await event.save();
+    }
+    
+    res.json(event);
+  } catch (error) {
+    res.status(400).json({ error: 'Failed to sign up' });
+  }
+});
+
+// Delete event
+app.delete('/api/events/:id', async (req, res) => {
+	try {
+	  const deletedEvent = await Event.findByIdAndDelete(req.params.id);
+	  if (!deletedEvent) return res.status(404).json({ error: 'Event not found' });
+	  res.json({ message: 'Event deleted successfully' });
+	} catch (error) {
+	  res.status(500).json({ error: 'Failed to delete event' });
+	}
+  });
+  
 
 // Start the server
 app.listen(PORT, () => {
