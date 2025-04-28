@@ -1,10 +1,14 @@
 # Hackathon Event & Housing Portal
 
-Hello, this project was written for a Hackthon run by the University of Denver, Metro State Univerity and University of Colorado Denver. The theme was to develop something that improves campus life, ranging from scheduling and campus navigation to enhancing communication between students, faculty, and administration. We decided to create ResRelate, a replacement for the current housing portal and information sites.
+This project, ResRelate, was developed during a hackathon jointly hosted by the University of Denver, Metropolitan State University, and the University of Colorado Denver. The challenge theme was to build tools that enhance campus life-whether through better scheduling, easier campus navigation, or improved communication between students, faculty, and administration.
 
-Contributers: Ender Peyzner, Jaxon Packer, Wade Massey, Sam Myers, Zach Degidio
+We chose to create ResRelate as a modern alternative to the existing campus housing portal and information sites, aiming to make housing processes and student engagement simpler and more effective.
 
-SideNote: We were only able to code for a max 6 hours even though this was a 26 hour event due to most of the team being away for Lacrosse Playoffs and having to drive with no service 10 hours back. 
+Contributors:
+Ender Peyzner, Jaxon Packer, Wade Massey, Sam Myers, Zach Degidio
+
+Note:
+Although the hackathon lasted 26 hours, our team was only able to code for about 6 hours. Most of us were away for lacrosse playoffs and spent nearly 10 hours driving back with no internet access. Despite the time crunch, we’re proud of what we accomplished and excited to share it!
 
 ---
 
