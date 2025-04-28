@@ -1,16 +1,17 @@
 # Hackathon Event & Housing Portal
 
-Welcome! This project was built in 26 hours during a hackathon to create a web platform for university students to chat, manage events, and apply for housing-all in one place.
+Hello, this project was written for a Hackthon run by the University of Denver, Metro State Univerity and University of Colorado Denver. The theme was to develop something that improves campus life, ranging from scheduling and campus navigation to enhancing communication between students, faculty, and administration. We chose to rework the housing pages.
+
 
 ---
 
-## 🚀 Project Overview
+## Project Overview
 
 This platform allows students to:
 - **Register and log in securely**
 - **Chat in real time** with other users
-- **Create, view, and sign up for events**
-- **Apply for university housing and view housing resources**
+- **Create and View events**
+- **View housing resources**
 
 Our goal was to make campus life easier by bringing together communication and essential services in a single, easy-to-use web app.
 
@@ -22,7 +23,6 @@ During this project, we learned and applied:
 - **React** (frontend UI)
 - **Express.js** (backend API)
 - **MongoDB & Mongoose** (database and data modeling)
-- **JWT Authentication & bcrypt** (secure user authentication)
 - **RESTful API design**
 - **React Context** for user authentication state
 - **CSS Modules** for component styling
@@ -34,10 +34,9 @@ During this project, we learned and applied:
 
 ## 📋 Features
 
-- User registration & login with hashed passwords
-- Persistent authentication using JWT and cookies
+- User registration & login with passwords
 - Real-time chat between users
-- Event creation, display, and sign-up
+- Event creation and display
 - Housing application resource links and information
 - Responsive, clean UI with React and CSS Modules
 
@@ -72,10 +71,3 @@ During this project, we learned and applied:
 
 ---
 
-## 🙏 Thanks
-
-Thanks for checking out this project!  
-We built a lot in just 26 hours and learned a ton about full-stack web development.  
-Pull requests and feedback are welcome.
-
----
