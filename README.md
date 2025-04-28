@@ -1,7 +1,10 @@
 # Hackathon Event & Housing Portal
 
-Hello, this project was written for a Hackthon run by the University of Denver, Metro State Univerity and University of Colorado Denver. The theme was to develop something that improves campus life, ranging from scheduling and campus navigation to enhancing communication between students, faculty, and administration. We chose to rework the housing pages.
+Hello, this project was written for a Hackthon run by the University of Denver, Metro State Univerity and University of Colorado Denver. The theme was to develop something that improves campus life, ranging from scheduling and campus navigation to enhancing communication between students, faculty, and administration. We decided to create ResRelate, a replacement for the current housing portal and information sites.
 
+Contributers: Ender Peyzner, Jaxon Packer, Wade Massey, Sam Myers, Zach Degidio
+
+SideNote: We were only able to code for a max 6 hours even though this was a 26 hour event due to most of the team being away for Lacrosse Playoffs and having to drive with no service 10 hours back. 
 
 ---
 
@@ -9,7 +12,7 @@ Hello, this project was written for a Hackthon run by the University of Denver, 
 
 This platform allows students to:
 - **Register and log in securely**
-- **Chat in real time** with other users
+- **Chat in real time with other users**
 - **Create and View events**
 - **View housing resources**
 
@@ -17,22 +20,20 @@ Our goal was to make campus life easier by bringing together communication and e
 
 ---
 
-## 🛠️ Tech Stack & Skills Learned
+## Tech Stack & Skills Learned
 
 During this project, we learned and applied:
 - **React** (frontend UI)
 - **Express.js** (backend API)
 - **MongoDB & Mongoose** (database and data modeling)
-- **RESTful API design**
 - **React Context** for user authentication state
 - **CSS Modules** for component styling
-- **Async/await** for clean asynchronous code
 - **Frontend/Backend integration** (CORS, JSON APIs)
 - **Error handling & debugging** in full-stack apps
 
 ---
 
-## 📋 Features
+## Features
 
 - User registration & login with passwords
 - Real-time chat between users
@@ -42,7 +43,7 @@ During this project, we learned and applied:
 
 ---
 
-## ⚠️ Known Issues & Future Improvements
+## Known Issues & Future Improvements
 
 - **Event sign-up is not fully functional:**  
   Users can attempt to sign up for events, but the system does not yet track which events a user is registered for in their account. This is a key feature to be completed.
@@ -57,7 +58,7 @@ During this project, we learned and applied:
 
 ---
 
-## 🏁 How to Run
+## How to Run
 
 1. **Clone this repo**
 2. **Install dependencies**  
@@ -70,4 +71,6 @@ During this project, we learned and applied:
 6. **Visit** `http://localhost:3000` in your browser
 
 ---
+
+Thank you!
 
