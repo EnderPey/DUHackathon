@@ -46,9 +46,7 @@ During this project, we learned and applied:
 ## Known Issues & Future Improvements
 
 - **Event sign-up is not fully functional:**  
-  Users can attempt to sign up for events, but the system does not yet track which events a user is registered for in their account. This is a key feature to be completed.
-- **Event registration should be linked to user accounts:**  
-  Future work will ensure each user has a list of their registered events, visible in their profile.
+  Users can attempt to sign up for events, but the system throws an error. We would need to link events to users specifically in order to track registered events.
 - **More robust error handling and user feedback**
 - **Admin features:**  
   Event moderation, user management, and housing application review.
